@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PocketPOS">
+  <meta name="description" content="Offline point of sale, inventory, and analytics">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>PocketPOS — Offline POS</title>
+</head>
+<body>
+  <!-- Top app bar (glass) -->
+  <header class="app-bar">
+    <div class="app-bar-left">
+      <div class="brand">
+        <span class="brand-logo">🧾</span>
+        <div class="brand-text">
+          <span class="brand-name">PocketPOS</span>
+          <span class="brand-sub" id="storeNameLabel">My Store</span>
+        </div>
+      </div>
+    </div>
+    <div class="app-bar-right">
+      <span class="status-chip" id="connPill" title="Offline-ready">● Offline</span>
+      <button class="icon-btn cart-btn is-hidden" id="cartBtn" aria-label="Cart">
+        🛒<span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main content area -->
+  <main class="content" id="content">
+    <div class="screen-header">
+      <h1 class="screen-title" id="screenTitle">Dashboard</h1>
+      <p class="screen-sub" id="screenSub">Business overview & analytics</p>
+    </div>
+    <!-- Screens are rendered here by JS -->
+    <div id="screenRoot"></div>
+  </main>
+
+  <!-- Floating glass bottom dock navigation -->
+  <nav class="dock" id="dock" aria-label="Primary navigation">
+    <button class="dock-item active" data-screen="dashboard" title="Dashboard">
+      <span class="dock-icon">📊</span>
+      <span class="dock-label">Home</span>
+    </button>
+    <button class="dock-item" data-screen="pos" title="Point of Sale">
+      <span class="dock-icon">🛒</span>
+      <span class="dock-label">Sell</span>
+    </button>
+    <button class="dock-item dock-fab" data-screen="pos" id="dockFab" title="New Sale">
+      <span class="dock-fab-icon">＋</span>
+    </button>
+    <button class="dock-item" data-screen="inventory" title="Inventory">
+      <span class="dock-icon">📦</span>
+      <span class="dock-label">Stock</span>
+    </button>
+    <button class="dock-item" data-screen="more" id="dockMore" title="More">
+      <span class="dock-icon">•••</span>
+      <span class="dock-label">More</span>
+    </button>
+  </nav>
+
+  <!-- "More" overflow sheet (glass) -->
+  <div class="sheet-overlay" id="sheetOverlay"></div>
+  <div class="more-sheet" id="moreSheet">
+    <div class="sheet-handle"></div>
+    <h3 class="sheet-title">More</h3>
+    <div class="sheet-grid">
+      <button class="sheet-item" data-screen="sales">
+        <span class="sheet-emoji">🧾</span><span>Sales &amp; Receipts</span>
+      </button>
+      <button class="sheet-item" data-screen="backup">
+        <span class="sheet-emoji">💾</span><span>Backup &amp; Restore</span>
+      </button>
+      <button class="sheet-item" data-screen="settings">
+        <span class="sheet-emoji">⚙️</span><span>Settings</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Generic modal container -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+  </div>
+
+  <!-- Receipt print area (hidden on screen) -->
+  <div id="printArea" class="print-only"></div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/db.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/format.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/screens/dashboard.js"></script>
+  <script src="js/screens/pos.js"></script>
+  <script src="js/screens/inventory.js"></script>
+  <script src="js/screens/sales.js"></script>
+  <script src="js/screens/backup.js"></script>
+  <script src="js/screens/settings.js"></script>
+  <script src="js/receipt.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
